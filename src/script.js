@@ -7,8 +7,9 @@ class CharacterCounter {
     return 500; // For Mailchimp.
   }
 
-  static getInstagramMax() {
-    return 2200;
+  // This seems to be Zapier's max for LinkedIn.
+  static getLinkedInMax() {
+    return 1300;
   }
 
   static getTwitterMax() {
@@ -16,7 +17,7 @@ class CharacterCounter {
   }
 
   static cleanText(textEntered) {
-    let cleanedText = textEntered.replace(" [INSTAGRAM MAX] ", "");
+    let cleanedText = textEntered.replace(" [LINKEDIN MAX] ", "");
     cleanedText = cleanedText.replace(" [FACEBOOK MAX] ", "");
     cleanedText = cleanedText.replace(" [TWITTER MAX] ", "");
     return cleanedText;
@@ -37,20 +38,21 @@ class CharacterCounter {
       case CharacterCounter.getFacebookMax():
         textArea.value += " [FACEBOOK MAX] ";
         break;
-      case CharacterCounter.getInstagramMax():
-        textArea.value += " [INSTAGRAM MAX] ";
+      case CharacterCounter.getLinkedInMax():
+        textArea.value += " [LINKEDIN MAX] ";
         break;
       case CharacterCounter.getTwitterMax():
         textArea.value += " [TWITTER MAX] ";
         break;
     }
 
-    let counter = 220000 - (cleanedText.length + 1);
+    // Default is the IG max for Mailchimp.
+    let counter = 2200 - (cleanedText.length + 1);
     let countEntered = document.getElementById("charactersEntered");
     let countRemaining = document.getElementById("charactersRemaining");
 
     countEntered.textContent = (cleanedText.length + 1) + " chacters entered";
-    countRemaining.textContent = counter + " chacters remaining for LinkedIn";
+    countRemaining.textContent = counter + " characters remaining for IG";
   } // countCharacters()
 
   static spliceSlice(str, index, count, add) {
@@ -100,15 +102,15 @@ class CharacterCounter {
 
     let z = CharacterCounter.spliceSlice(
       y,
-      CharacterCounter.getInstagramMax() + offset1 + offset2,
+      CharacterCounter.getLinkedInMax() + offset1 + offset2,
       0,
-      " [INSTAGRAM MAX] "
+      " [LINKEDIN MAX] "
     );
     
     let offset3 = 0;
     
-    if (/INSTAGRAM MAX/.test(y)) {
-      offset3 =  " [INSTAGRAM MAX] ".length;
+    if (/LINKEDIN MAX/.test(y)) {
+      offset3 =  " [LINKEDIN MAX] ".length;
     }
     
     document.getElementById("tweet").value = z + '\n\n[ORIGINAL TEXT STARTS HERE]\n';
@@ -117,8 +119,8 @@ class CharacterCounter {
     let counter = 220000 - (z.length + offset1 + offset2 + offset3 + 6);
     let countEntered = document.getElementById("charactersEntered");
     let countRemaining = document.getElementById("charactersRemaining");
-    countEntered.textContent = (z.length - (offset1 + offset2 + offset3 + 6)) + " chacters entered";
-    countRemaining.textContent = counter + " chacters remaining for LinkedIn";
+    countEntered.textContent = (z.length - (offset1 + offset2 + offset3 + 6)) + " characters entered";
+    countRemaining.textContent = counter + " characters remaining for LinkedIn";
 
   } // handlePaste()
 } // end class CharacterCounter
